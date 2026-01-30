@@ -1,21 +1,38 @@
-package org.example.controller;
+package org.example.service;
 
 import org.example.model.Student;
-import org.example.service.StudentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
-@RestController
-public class StudentController {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-    private final StudentService studentService;
+@Service
+public class StudentService {
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    private List<Student> students = new ArrayList<>();
+
+    public StudentService() {
+        students.add(new Student(1, "Atharva"));
+        students.add(new Student(2, "Chef"));
     }
 
-    @GetMapping("/student")
-    public Student getStudent() {
-        return studentService.getStudent();
+    public List<Student> getAllStudents() {
+        return students;
+    }
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public Student getStudentById(int id) {
+        return students.stream()
+                .filter(s -> s.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void deleteStudent(int id) {
+        students.removeIf(s -> s.getId() == id);
     }
 }
