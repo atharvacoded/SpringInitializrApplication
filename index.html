@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student App</title>
+</head>
+<body>
+
+<h1>Student Dashboard</h1>
+
+<img src="Student.jpg" width="200"/>
+
+<br><br>
+
+<button onclick="loadStudents()">Load Students</button>
+
+<div id="output"></div>
+
+<script>
+    function loadStudents() {
+        fetch('/students')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("output").innerHTML =
+                    JSON.stringify(data);
+            });
+    }
+</script>
+
+</body>
+</html>
