@@ -1,38 +1,39 @@
-package org.example.service;
+package org.example.controller;
 
 import org.example.model.Student;
-import org.springframework.stereotype.Service;
+import org.example.service.StudentService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class StudentService {
+@RestController
+public class StudentController {
 
-    private List<Student> students = new ArrayList<>();
+    private final StudentService service;
 
-    public StudentService() {
-        students.add(new Student(1, "Atharva"));
-        students.add(new Student(2, "Chef"));
+    public StudentController(StudentService service) {
+        this.service = service;
     }
 
+    @GetMapping("/students")
     public List<Student> getAllStudents() {
-        return students;
+        return service.getAllStudents();
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+    @PostMapping("/students")
+    public String addStudent(@RequestBody Student student) {
+        service.addStudent(student);
+        return "Student added successfully!";
     }
 
-    public Student getStudentById(int id) {
-        return students.stream()
-                .filter(s -> s.getId() == id)
-                .findFirst()
-                .orElse(null);
+    @GetMapping("/students/{id}")
+    public Student getStudentById(@PathVariable int id) {
+        return service.getStudentById(id);
     }
 
-    public void deleteStudent(int id) {
-        students.removeIf(s -> s.getId() == id);
+    @DeleteMapping("/students/{id}")
+    public String deleteStudent(@PathVariable int id) {
+        service.deleteStudent(id);
+        return "Student deleted successfully!";
     }
 }
