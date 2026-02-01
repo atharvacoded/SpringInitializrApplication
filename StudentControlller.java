@@ -1,15 +1,15 @@
 package org.example.controller;
-
 import org.example.model.Student;
 import org.example.service.StudentService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 public class StudentController {
 
     private final StudentService service;
+    //StudentService service = new StudentService();
+
 
     public StudentController(StudentService service) {
         this.service = service;
